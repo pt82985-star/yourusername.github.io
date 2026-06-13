@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BrightTutor – Find Your Perfect Tutor</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Inter', sans-serif; color: #1a1a2e; background: #fff; }
+
+  /* NAV */
+  nav {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 5%; height: 68px; background: #fff;
+    border-bottom: 1px solid #eee; position: sticky; top: 0; z-index: 100;
+  }
+  .logo { font-size: 22px; font-weight: 800; color: #3b28cc; letter-spacing: -0.5px; }
+  .logo span { color: #f7b731; }
+  .nav-links { display: flex; gap: 28px; list-style: none; }
+  .nav-links a { text-decoration: none; color: #444; font-size: 14px; font-weight: 500; }
+  .nav-links a:hover { color: #3b28cc; }
+  .nav-cta { display: flex; gap: 10px; }
+  .btn-outline {
+    padding: 8px 18px; border: 2px solid #3b28cc; border-radius: 8px;
+    color: #3b28cc; font-weight: 600; font-size: 14px; cursor: pointer;
+    background: transparent; text-decoration: none;
+  }
+  .btn-primary {
+    padding: 8px 18px; border: none; border-radius: 8px;
+    background: #3b28cc; color: #fff; font-weight: 600; font-size: 14px;
+    cursor: pointer; text-decoration: none;
+  }
+  .btn-primary:hover { background: #2d1fa3; }
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, #f0edff 0%, #fffbe6 100%);
+    padding: 80px 5% 60px;
+    display: flex; align-items: center; gap: 60px;
+  }
+  .hero-text { flex: 1; }
+  .hero-badge {
+    display: inline-block; background: #e8e3ff; color: #3b28cc;
+    font-size: 13px; font-weight: 600; padding: 5px 14px;
+    border-radius: 20px; margin-bottom: 18px;
+  }
+  .hero h1 {
+    font-size: clamp(32px, 5vw, 52px); font-weight: 800;
+    line-height: 1.12; color: #1a1a2e; margin-bottom: 18px;
+  }
+  .hero h1 em { color: #3b28cc; font-style: normal; }
+  .hero p { font-size: 18px; color: #555; line-height: 1.7; margin-bottom: 32px; max-width: 480px; }
+  .search-bar {
+    display: flex; background: #fff; border-radius: 12px;
+    box-shadow: 0 4px 24px rgba(59,40,204,0.12); overflow: hidden;
+    max-width: 520px;
+  }
+  .search-bar input {
+    flex: 1; padding: 16px 20px; border: none; outline: none;
+    font-size: 15px; color: #333;
+  }
+  .search-bar select {
+    padding: 16px 12px; border: none; border-left: 1px solid #eee;
+    outline: none; font-size: 15px; color: #333; background: #fafafa; cursor: pointer;
+  }
+  .search-bar button {
+    padding: 16px 24px; background: #3b28cc; color: #fff;
+    border: none; font-weight: 700; font-size: 15px; cursor: pointer;
+  }
+  .search-bar button:hover { background: #2d1fa3; }
+  .hero-stats { display: flex; gap: 32px; margin-top: 28px; }
+  .hero-stats div { text-align: left; }
+  .hero-stats .num { font-size: 22px; font-weight: 800; color: #1a1a2e; }
+  .hero-stats .lbl { font-size: 12px; color: #888; margin-top: 2px; }
+  .hero-img { flex: 0 0 400px; }
+  .hero-img img { width: 100%; border-radius: 20px; }
+  .hero-img-placeholder {
+    width: 100%; height: 360px; border-radius: 20px;
+    background: linear-gradient(135deg, #c7beff 0%, #ffe9a0 100%);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 80px;
+  }
+
+  /* SUBJECTS */
+  .subjects { padding: 64px 5%; text-align: center; }
+  .section-label { font-size: 13px; font-weight: 600; color: #3b28cc; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; }
+  .section-title { font-size: clamp(24px, 3vw, 36px); font-weight: 800; color: #1a1a2e; margin-bottom: 10px; }
+  .section-sub { color: #666; font-size: 16px; margin-bottom: 40px; }
+  .subject-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 16px; max-width: 900px; margin: 0 auto; }
+  .subject-card {
+    background: #fff; border: 1.5px solid #eee; border-radius: 14px;
+    padding: 24px 16px; text-align: center; cursor: pointer;
+    transition: all 0.2s; text-decoration: none; color: inherit;
+  }
+  .subject-card:hover { border-color: #3b28cc; box-shadow: 0 4px 20px rgba(59,40,204,0.1); transform: translateY(-2px); }
+  .subject-icon { font-size: 32px; margin-bottom: 10px; }
+  .subject-card p { font-size: 14px; font-weight: 600; color: #333; }
+
+  /* HOW IT WORKS */
+  .how { background: #f7f5ff; padding: 72px 5%; text-align: center; }
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; max-width: 900px; margin: 48px auto 0; }
+  .step { background: #fff; border-radius: 16px; padding: 32px 24px; position: relative; }
+  .step-num { width: 40px; height: 40px; background: #3b28cc; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 16px; margin: 0 auto 16px; }
+  .step h3 { font-size: 16px; font-weight: 700; margin-bottom: 10px; }
+  .step p { font-size: 14px; color: #666; line-height: 1.6; }
+
+  /* TUTORS */
+  .tutors { padding: 72px 5%; }
+  .tutors-header { text-align: center; margin-bottom: 48px; }
+  .tutor-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px; }
+  .tutor-card {
+    background: #fff; border: 1.5px solid #eee; border-radius: 16px;
+    overflow: hidden; transition: all 0.2s; cursor: pointer;
+  }
+  .tutor-card:hover { box-shadow: 0 8px 32px rgba(59,40,204,0.12); transform: translateY(-4px); }
+  .tutor-avatar {
+    width: 100%; height: 160px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 56px;
+  }
+  .tutor-body { padding: 16px 20px 20px; }
+  .tutor-name { font-weight: 700; font-size: 16px; margin-bottom: 2px; }
+  .tutor-uni { font-size: 13px; color: #888; margin-bottom: 8px; }
+  .tutor-subject { display: inline-block; background: #f0edff; color: #3b28cc; font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 20px; margin-bottom: 10px; }
+  .tutor-stars { color: #f7b731; font-size: 14px; }
+  .tutor-stars span { color: #888; font-size: 13px; margin-left: 4px; }
+  .tutor-rate { font-weight: 700; font-size: 15px; color: #1a1a2e; margin-top: 8px; }
+
+  /* TESTIMONIALS */
+  .testimonials { background: #1a1a2e; padding: 72px 5%; }
+  .testimonials .section-title { color: #fff; }
+  .testimonials .section-label { color: #f7b731; }
+  .testimonials .section-sub { color: #aaa; }
+  .testi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; margin-top: 48px; }
+  .testi-card { background: #252545; border-radius: 16px; padding: 28px 24px; }
+  .testi-stars { color: #f7b731; font-size: 16px; margin-bottom: 14px; }
+  .testi-text { font-size: 15px; color: #ddd; line-height: 1.7; margin-bottom: 18px; }
+  .testi-author { display: flex; align-items: center; gap: 12px; }
+  .testi-avatar { width: 40px; height: 40px; border-radius: 50%; background: #3b28cc; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #fff; font-size: 14px; }
+  .testi-name { font-weight: 600; color: #fff; font-size: 14px; }
+  .testi-detail { font-size: 12px; color: #999; }
+
+  /* CTA BANNER */
+  .cta-banner {
+    background: linear-gradient(135deg, #3b28cc, #7c3aed);
+    padding: 72px 5%; text-align: center;
+  }
+  .cta-banner h2 { font-size: clamp(24px, 3vw, 38px); font-weight: 800; color: #fff; margin-bottom: 14px; }
+  .cta-banner p { color: rgba(255,255,255,0.8); font-size: 17px; margin-bottom: 32px; }
+  .cta-banner .btn-white {
+    padding: 14px 36px; background: #fff; color: #3b28cc;
+    border: none; border-radius: 10px; font-weight: 700; font-size: 16px; cursor: pointer;
+    margin: 0 8px;
+  }
+  .cta-banner .btn-ghost {
+    padding: 14px 36px; background: transparent; color: #fff;
+    border: 2px solid rgba(255,255,255,0.5); border-radius: 10px; font-weight: 600; font-size: 16px; cursor: pointer;
+    margin: 0 8px;
+  }
+
+  /* FOOTER */
+  footer {
+    background: #111; color: #aaa; padding: 48px 5% 24px;
+  }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
+  .footer-brand .logo { font-size: 20px; margin-bottom: 12px; display: block; }
+  .footer-brand p { font-size: 13px; line-height: 1.7; max-width: 240px; }
+  footer h4 { color: #fff; font-size: 14px; font-weight: 600; margin-bottom: 14px; }
+  footer ul { list-style: none; }
+  footer ul li { margin-bottom: 8px; }
+  footer ul li a { color: #888; font-size: 13px; text-decoration: none; }
+  footer ul li a:hover { color: #fff; }
+  .footer-bottom { border-top: 1px solid #222; padding-top: 20px; text-align: center; font-size: 13px; color: #555; }
+
+  @media (max-width: 768px) {
+    .hero { flex-direction: column; }
+    .hero-img { display: none; }
+    .steps { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr 1fr; }
+    nav .nav-links { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">Bright<span>Tutor</span></div>
+  <ul class="nav-links">
+    <li><a href="#">Find a tutor</a></li>
+    <li><a href="#">Subjects</a></li>
+    <li><a href="#">How it works</a></li>
+    <li><a href="#">Pricing</a></li>
+  </ul>
+  <div class="nav-cta">
+    <a href="#" class="btn-outline">Log in</a>
+    <a href="#" class="btn-primary">Get started</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-text">
+    <div class="hero-badge">🇬🇧 Trusted by 500,000+ UK students</div>
+    <h1>Find a tutor who makes it <em>click</em></h1>
+    <p>Expert online tutors for every subject and level. Live 1-to-1 lessons from the UK's best university students and graduates.</p>
+    <div class="search-bar">
+      <input type="text" placeholder="Search subject, e.g. Maths, Biology…" />
+      <select>
+        <option>All levels</option>
+        <option>GCSE</option>
+        <option>A-Level</option>
+        <option>University</option>
+        <option>Primary</option>
+      </select>
+      <button>Search</button>
+    </div>
+    <div class="hero-stats">
+      <div><div class="num">12,000+</div><div class="lbl">Tutors available</div></div>
+      <div><div class="num">4.9★</div><div class="lbl">Average rating</div></div>
+      <div><div class="num">£25/hr</div><div class="lbl">From per lesson</div></div>
+    </div>
+  </div>
+  <div class="hero-img">
+    <div class="hero-img-placeholder">🎓</div>
+  </div>
+</section>
+
+<!-- SUBJECTS -->
+<section class="subjects">
+  <div class="section-label">Browse by subject</div>
+  <h2 class="section-title">Whatever you're studying, we've got you</h2>
+  <p class="section-sub">From primary school to university — find expert help in any subject</p>
+  <div class="subject-grid">
+    <a href="#" class="subject-card"><div class="subject-icon">➕</div><p>Maths</p></a>
+    <a href="#" class="subject-card"><div class="subject-icon">🔬</div><p>Science</p></a>
+    <a href="#" class="subject-card"><div class="subject-icon">📖</div><p>English</p></a>
+    <a href="#" class="subject-card"><div class="subject-icon">🧬</div><p>Biology</p></a>
+    <a href="#" class="subject-card"><div class="subject-icon">⚗️</div><p>Chemistry</p></a>
+    <a href="#" class="subject-card"><div class="subject-icon">⚡</div><p>Physics</p></a>
+    <a href="#" class="subject-card"><div class="subject-icon">🌍</div><p>Geography</p></a>
+    <a href="#" class="subject-card"><div class="subject-icon">🗺️</div><p>History</p></a>
+    <a href="#" class="subject-card"><div class="subject-icon">💻</div><p>Computing</p></a>
+    <a href="#" class="subject-card"><div class="subject-icon">🎨</div><p>Art</p></a>
+    <a href="#" class="subject-card"><div class="subject-icon">🎵</div><p>Music</p></a>
+    <a href="#" class="subject-card"><div class="subject-icon">🌐</div><p>Languages</p></a>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how">
+  <div class="section-label">Simple process</div>
+  <h2 class="section-title">How BrightTutor works</h2>
+  <p class="section-sub">Start learning in minutes — no complicated setup required</p>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <h3>Search for a tutor</h3>
+      <p>Filter by subject, level, price, and availability. Read reviews from real students.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <h3>Book a free intro</h3>
+      <p>Every tutor offers a free 15-minute meeting so you can find the right fit before paying.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <h3>Learn &amp; grow</h3>
+      <p>Join live online lessons in our interactive whiteboard. Progress at your own pace.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TUTORS -->
+<section class="tutors">
+  <div class="tutors-header">
+    <div class="section-label">Meet the tutors</div>
+    <h2 class="section-title">Learn from the best</h2>
+    <p class="section-sub">All tutors are background-checked and rated by students like you</p>
+  </div>
+  <div class="tutor-grid">
+    <div class="tutor-card">
+      <div class="tutor-avatar" style="background:#f0edff;">👩‍🎓</div>
+      <div class="tutor-body">
+        <div class="tutor-name">Aisha Rahman</div>
+        <div class="tutor-uni">University of Oxford</div>
+        <span class="tutor-subject">A-Level Maths</span>
+        <div class="tutor-stars">★★★★★ <span>5.0 (124 reviews)</span></div>
+        <div class="tutor-rate">£35 / hour</div>
+      </div>
+    </div>
+    <div class="tutor-card">
+      <div class="tutor-avatar" style="background:#e8f5e9;">👨‍🔬</div>
+      <div class="tutor-body">
+        <div class="tutor-name">James McAllister</div>
+        <div class="tutor-uni">University of Edinburgh</div>
+        <span class="tutor-subject">GCSE Chemistry</span>
+        <div class="tutor-stars">★★★★★ <span>4.9 (98 reviews)</span></div>
+        <div class="tutor-rate">£28 / hour</div>
+      </div>
+    </div>
+    <div class="tutor-card">
+      <div class="tutor-avatar" style="background:#fff3e0;">👩‍💻</div>
+      <div class="tutor-body">
+        <div class="tutor-name">Priya Patel</div>
+        <div class="tutor-uni">Imperial College London</div>
+        <span class="tutor-subject">A-Level Physics</span>
+        <div class="tutor-stars">★★★★★ <span>5.0 (211 reviews)</span></div>
+        <div class="tutor-rate">£40 / hour</div>
+      </div>
+    </div>
+    <div class="tutor-card">
+      <div class="tutor-avatar" style="background:#fce4ec;">📚</div>
+      <div class="tutor-body">
+        <div class="tutor-name">Tom Whitfield</div>
+        <div class="tutor-uni">University of Cambridge</div>
+        <span class="tutor-subject">GCSE English Lit</span>
+        <div class="tutor-stars">★★★★★ <span>4.8 (76 reviews)</span></div>
+        <div class="tutor-rate">£30 / hour</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+  <div style="text-align:center">
+    <div class="section-label">Student stories</div>
+    <h2 class="section-title">Real results, real students</h2>
+    <p class="section-sub">Join hundreds of thousands who've boosted their grades</p>
+  </div>
+  <div class="testi-grid">
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"My maths grade went from a 4 to a 7 in just six weeks. My tutor broke everything down so clearly — I actually enjoy the subject now."</p>
+      <div class="testi-author">
+        <div class="testi-avatar">SJ</div>
+        <div><div class="testi-name">Sophie Jenkins</div><div class="testi-detail">GCSE student, London</div></div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"I was terrified about my A-Level Chemistry resit. After 8 sessions I felt genuinely confident. Passed with a B — couldn't believe it."</p>
+      <div class="testi-author">
+        <div class="testi-avatar">RM</div>
+        <div><div class="testi-name">Rohan Mehta</div><div class="testi-detail">A-Level student, Manchester</div></div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-text">"As a parent, I love how easy the platform is. My daughter's confidence has transformed. Her teacher even commented on her improvement."</p>
+      <div class="testi-author">
+        <div class="testi-avatar">KL</div>
+        <div><div class="testi-name">Karen Liu</div><div class="testi-detail">Parent, Birmingham</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BANNER -->
+<section class="cta-banner">
+  <h2>Ready to find your tutor?</h2>
+  <p>Join over 500,000 students already learning with BrightTutor</p>
+  <button class="btn-white">Find a tutor</button>
+  <button class="btn-ghost">Become a tutor</button>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <span class="logo">Bright<span>Tutor</span></span>
+      <p>The UK's leading online tutoring platform. Quality 1-to-1 tuition from vetted, expert tutors.</p>
+    </div>
+    <div>
+      <h4>For students</h4>
+      <ul>
+        <li><a href="#">Find a tutor</a></li>
+        <li><a href="#">Browse subjects</a></li>
+        <li><a href="#">Pricing</a></li>
+        <li><a href="#">Free intro lessons</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>For tutors</h4>
+      <ul>
+        <li><a href="#">Become a tutor</a></li>
+        <li><a href="#">How it works</a></li>
+        <li><a href="#">Tutor resources</a></li>
+        <li><a href="#">Community</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Company</h4>
+      <ul>
+        <li><a href="#">About us</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Press</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2026 BrightTutor Ltd. All rights reserved. | <a href="#" style="color:#555; text-decoration:none;">Privacy</a> · <a href="#" style="color:#555; text-decoration:none;">Terms</a></div>
+</footer>
+
+</body>
+</html>
